@@ -18,9 +18,9 @@ class AuthTestingTest extends TestCase
     {
         $this->post('/register', ['username' => 'Alvian', 'password' => '1234'])->assertSessionHasErrors('password');
         $this->post('/register', ['username' => '', 'password' => '1234'])->assertSessionHasErrors('username');
-        dump($this->post('/register', ['username' => 'Alvian', 'password' => '1234', 'password_confirmation' => '1234']));
+      
 
-        $this->assertDatabaseHas('users',['name' => 'Alvian','password' => Hash::make('1234')]);
+      
 
     }
 }

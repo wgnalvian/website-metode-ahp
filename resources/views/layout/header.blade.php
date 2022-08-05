@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,10 +18,9 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{asset('/css/sb-admin-2.min.css')}}" rel="stylesheet">
-    <link href="{{asset('/css/custom.css')}}" rel="stylesheet" >
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
 
 </head>
 
-<body class="bg-gradient-primary">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<body id="page-top">

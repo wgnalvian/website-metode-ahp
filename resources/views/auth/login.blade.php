@@ -1,11 +1,11 @@
 @include('auth.layout.header')
-
-@if (Session::has('success'))
+{{-- Alert error --}}
+@if (Session::has('error'))
     <script>
         Swal.fire({
-            title: 'Success!',
-            text: '<?= Session::get('success') ?>',
-            icon: 'success',
+            title: 'Error!',
+            text: '<?= Session::get('error') ?>',
+            icon: 'error',
 
         })
     </script>
@@ -25,9 +25,9 @@
                         <div class="col-lg">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Sign Up</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Sign In</h1>
                                 </div>
-                                <form class="user" method="POST" action={{url('/register')}}>
+                                <form class="user" method="POST" action={{ url('/login') }}>
                                     @csrf
                                     <div class="form-group">
                                         <input name="username" type="text" class="form-control form-control-user"
@@ -47,21 +47,26 @@
                                         <div class="error">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group">
-                                        <input name="password_confirmation" type="password"
-                                            class="form-control form-control-user" id="exampleInputPassword"
-                                            {{ old('password_confirmation') }}
-                                            placeholder="Enter Password Confirmation..">
+                                        <select name="role_id" class="custom-select"
+                                            aria-label="Default select example">
+                                            <option value=""  >Sign as ...</option>
+                                            @foreach ($roleUser as $role)
+                                                <option value="{{ $role->id }}">{{ $role->role }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('role_id')
+                                            <div class="error">{{ $message }}</div>
+                                        @enderror
                                     </div>
-
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        Sign Up
+                                        Sign In
                                     </button>
 
                                 </form>
                                 <hr>
 
                                 <div class="text-center">
-                                    <a class="small" href={{url('/login')}}>Already have an account? Login!</a>
+                                    <a class="small" href={{ url('/register') }}>Create an Account!</a>
                                 </div>
                             </div>
                         </div>
