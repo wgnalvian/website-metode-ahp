@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,5 +34,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function roleUser(){
+        return $this->belongsTo(RoleUser::class,'role_id','id');
+    }
 
 }

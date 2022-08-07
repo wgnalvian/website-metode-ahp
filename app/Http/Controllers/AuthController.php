@@ -49,7 +49,7 @@ class AuthController extends Controller
         User::create([
             'name' => $username,
             'password' => Hash::make($password),
-            'role_id' => 2 // id 2 for role user
+            'role_id' => RoleUser::where('role','User')->first()->id // get id  for role user
         ]);
 
         return redirect()->back()->with('success', 'Register Successfully');

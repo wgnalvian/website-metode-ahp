@@ -1,3 +1,15 @@
 .bg-gradient-primary{
     background-color: black !important;
 }
+
+.sizing{
+    box-sizing: border-box;
+}
+.error{
+    color : red;
+    font-size: 15px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    width: 100%;
+    margin : 1rem 0 1rem 0;
+}

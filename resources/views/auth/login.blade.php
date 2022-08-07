@@ -25,12 +25,12 @@
                         <div class="col-lg">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Sign In</h1>
+                                    <h1 class="h4 text-gray-900 mb-4 ">Sign In</h1>
                                 </div>
                                 <form class="user" method="POST" action={{ url('/login') }}>
                                     @csrf
                                     <div class="form-group">
-                                        <input name="username" type="text" class="form-control form-control-user"
+                                        <input autocomplete="false" name="username" type="text" class="form-control form-control-user"
                                             value="{{ old('username') }}" placeholder="Enter Username..">
                                     </div>
                                     @error('username')
