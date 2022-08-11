@@ -12,5 +12,9 @@ class Category extends Model
     protected $table = 'categories';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    public function subcategory(){
+        return $this->hasMany(SubCategory::class,'category_id','id');
+    }
   
 }

@@ -12,7 +12,7 @@
     <div class="col card sizing py-2">
         <form action="{{ url('/admin/category') }}" method="post">
             @csrf
-            <label for="basic-url">Category ID</label>
+          
        
             <label for="basic-url">Category Name</label>
             <div class="input-group mb-3">

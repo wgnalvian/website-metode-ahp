@@ -35,7 +35,7 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
     <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
@@ -46,17 +46,6 @@
 
 
 
-    @if (Session::has('success'))
-        <script>
-            Swal.fire({
-                title: 'Success!',
-                text: '<?= Session::get('success') ?>',
-                icon: 'success',
-
-
-            })
-        </script>
-    @endif
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -75,8 +64,4 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">{{ isset($view) ? $view : '' }}</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
+                 

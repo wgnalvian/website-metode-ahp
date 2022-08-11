@@ -10,6 +10,6 @@ class AdminController extends Controller
 {
     public function dashboardView(){
      
-        return view('admin.dashboard');
+        return view('dashboard');
     }
 }

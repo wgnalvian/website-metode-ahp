@@ -28,7 +28,7 @@
                                         <input type="hidden" name="category_id" value="{{$category->id}}" />
                                         <button type="submit" class="btn btn-warning ">edit</button>
                                     </form>
-                                    <form class="d-inline" action="{{ url('/admin/category') }}" method="post">
+                                    <form class="d-inline DELETEC" action="{{ url('/admin/category') }}" method="post">
                                         @method('delete')
                                         @csrf
                                         <input type="hidden" name="category_id" value="{{$category->id}}" />
@@ -44,6 +44,29 @@
 
     </div>
 </div>
+
+<script>
+    document.querySelector('.DELETEC').addEventListener('submit',(e) => {
+        e.preventDefault();
+
+        Swal.fire({
+            title : 'Are you sure for delete ?',
+            text : 'It will also remove sub category constrained and will reset value comparation category & subcategory',
+            icon : 'warning',
+            showCancelButton : true,
+            confirmButtonText : 'oke',
+            cancelButtonText : 'cancel',
+            allowOutsideClick : false
+        }).then((result) => {
+            if(result.isConfirmed) {
+                document.querySelector('.DELETEC').submit();
+            }else{
+                return false
+            }
+        })
+    })
+</script>
+
 
 
 

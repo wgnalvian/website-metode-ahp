@@ -25,7 +25,7 @@ class SubCategoryAdd extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,id',
-            'subcategory_name' => 'required|unique:App\Models\SubCategory,subcategory_name'
+           
         ];
     }
 
@@ -35,7 +35,7 @@ class SubCategoryAdd extends FormRequest
             'category_id.required' => 'Choose category !',
             'category_id.exists' => 'Wrong category',
             'subcategory_name.required' => 'SubCategory name is required !',
-            'subcategory_name.unique' => 'SubCategory name  has been used !  ',
+           
         ];
     }
     

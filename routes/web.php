@@ -43,6 +43,9 @@ Route::controller(CategoryController::class)->prefix('/admin')->middleware('auth
     Route::get('/category/add', 'categoryAddView');
     Route::get('/category/edit', 'editCategoryView');
     Route::get('/category/edit', 'editCategoryView');
+    Route::get('/category/compar','comparCateogryView');
+    Route::post('/category/compar','doComparCategory');
+    Route::get('/category/compar/list','categoryComparView');
 });
 
 Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function(){

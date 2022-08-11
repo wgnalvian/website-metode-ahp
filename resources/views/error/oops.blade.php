@@ -1,13 +1,22 @@
 @include('layout.header')
-<div class="container-fluid">
+<div class="container-fluid w-full">
 
     <!-- 404 Error Text -->
-    <div class="text-center">
-        <div class="error mx-auto" data-text="404">Oops.....</div>
-        <p class="lead text-gray-800 mb-5">{{$msg}}</p>
-   
-        <a href="index.html">{{url()->previous()}}</a>
-    </div>
-
+   <div class="row"  style="width : 100%">
+        <div class="card" style="width : 100%">
+            <div class="card-body " style="border: 2px solid red">
+                <div class="row">
+                    <div class="col">
+                        <h1 style="color: red">Oops</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>{{$msg}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
 </div>
 @include('layout.footer')
