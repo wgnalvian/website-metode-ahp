@@ -1,7 +1,25 @@
 @include('layout.header')
 
-
-
+{{-- 
+@if ($isExistCompareCategory)
+    <script>
+          Swal.fire({
+            title : 'You have compare value before !',
+            text : 'Add Category will reset all data compare value from category & subcategory, are you sure add category ?',
+            icon : 'warning',
+            showCancelButton : true,
+            confirmButtonText : 'oke',
+            cancelButtonText : 'cancel',
+            allowOutsideClick : false
+        }).then((result) => {
+            if(result.isConfirmed) {
+                document.querySelector('.DELETEC').submit();
+            }else{
+                return false
+            }
+        })
+    </script>
+@endif --}}
 
 
 

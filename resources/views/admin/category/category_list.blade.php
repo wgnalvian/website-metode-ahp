@@ -9,6 +9,7 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
+                            <th>Is Compare ?</th>
                             <th>Action</th>
 
                         </tr>
@@ -20,7 +21,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $category->category_name }}</td>
-
+                                <td><div class="badge {{$category->is_compare == '1' ? 'badge-success' : 'badge-danger' }}">{{$category->is_compare == '1' ? 'Yes' : 'No' }}</div></td>
                                 <th>
                                     <form class="d-inline" action="{{ url('/admin/category/edit') }}" method="get">
                                        
@@ -28,7 +29,7 @@
                                         <input type="hidden" name="category_id" value="{{$category->id}}" />
                                         <button type="submit" class="btn btn-warning ">edit</button>
                                     </form>
-                                    <form class="d-inline DELETEC" action="{{ url('/admin/category') }}" method="post">
+                                    <form class="d-inline {{$category->is_compare == '1' ? 'DELETEC' : ''}}" action="{{ url('/admin/category') }}" method="post">
                                         @method('delete')
                                         @csrf
                                         <input type="hidden" name="category_id" value="{{$category->id}}" />

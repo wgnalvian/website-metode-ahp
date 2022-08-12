@@ -14,9 +14,12 @@ class CategoryController extends Controller
 {
     public $view = 'Category';
     public function categoryAddView()
-    {
+    {   $isExistCompareCategory = false;
+        if(CategoryComparM::get()->count() != 0){
+            $isExistCompareCategory = true;
+        }
 
-        return view('admin.category.category_add', ['view' => $this->view]);
+        return view('admin.category.category_add', ['view' => $this->view,'isExistCompareCategory' => $isExistCompareCategory]);
     }
 
     public function addCategory(CategoryAddReq $request)
@@ -29,6 +32,7 @@ class CategoryController extends Controller
             'category_name' => $validated['category_name'],
         
         ]);
+    
 
         return redirect()->back()->with('success', 'Successfully add category !');
     }
@@ -68,16 +72,19 @@ class CategoryController extends Controller
     }
     public function comparCateogryView()
     {
+
         $categories = $this->getCategories();
         if(count($categories) == 1){
             return view('error.oops', ['msg' => 'Please Add Category at least a  2 category!']);
         }
-        return view('admin.category.category_compar', ['view' => $this->view, 'categories' => $categories]);
+
+        $isCompareExist = Category::where('is_compare','1')->get()->count() == 0 ? false : true;
+        return view('admin.category.category_compar', ['view' => $this->view, 'categories' => $categories,'isCompareExist' => $isCompareExist]);
     }
 
     public function doComparCategory(CategoryCompar $request)
     {
-
+        CategoryComparM::truncate();
         $categoryCompar = [];
         $arrayTemp = [];
         foreach ($request->all() as $key => $value) {
@@ -100,11 +107,18 @@ class CategoryController extends Controller
             $categoryExplode = explode(',', $value);
 
             CategoryComparM::create(["category_id_a" => $categoryExplode[0], "value" => $categoryExplode[1], "category_id_b" => $categoryExplode[2]]);
+            
         }
+
+        Category::query()->update(['is_compare' => '1']);
+
+
+
+
 
         // Cek have cateogry ? 
         $count = Category::get()->count();
-
+        
         if ($count < 2) {
             return redirect()->to('/error/oops', ['msg' => 'Please Add Category Before']);
         }
@@ -165,7 +179,7 @@ class CategoryController extends Controller
     public function categoryComparView()
     {
         // Cek have cateogry ? 
-        $count = Category::get()->count();
+        $count = Category::where('is_compare','1')->get()->count();
 
         if ($count < 2) {
             return view('error.oops', ['msg' => 'Please Add Category Before']);
@@ -214,7 +228,9 @@ class CategoryController extends Controller
             $inc++;
         }
 
-        return view('admin.category.category_compar_list', ['categories' => Category::get(), 'category_compar' => $arrCategoryComparB, 'total_eigen' => $arrTotalEigen, 'mean_eigen' => $meanEigen]);
+        return view('admin.category.category_compar_list', ['categories' => Category::where('is_compare','1')->get(), 'category_compar' => $arrCategoryComparB, 'total_eigen' => $arrTotalEigen, 'mean_eigen' => $meanEigen]);
+
+
     }
 
     private function getEigen($arrayA, $count)

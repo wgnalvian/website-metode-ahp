@@ -4,7 +4,7 @@
 <div class="row ">
     <div class="col card sizing py-2">
         <div class="card-body">
-            <form action="{{ url('/admin/category/compar') }}" method="POST">
+            <form class="{{$isCompareExist ? 'COMPARE' : ''}}" action="{{ url('/admin/category/compar') }}" method="POST">
                 @csrf
                 <?php $temp = []; ?>
                 <?php $i = 1; ?>
@@ -67,4 +67,26 @@
         </div>
     </div>
 </div>
+<script>
+    document.querySelector('.COMPARE').addEventListener('submit',(e) => {
+        e.preventDefault();
+
+        Swal.fire({
+            title : 'Are you sure for compare ?',
+            text : 'There is have value compare from old compare, this action will remove olde compare value',
+            icon : 'warning',
+            showCancelButton : true,
+            confirmButtonText : 'oke',
+            cancelButtonText : 'cancel',
+            allowOutsideClick : false
+        }).then((result) => {
+            if(result.isConfirmed) {
+                document.querySelector('.COMPARE').submit();
+            }else{
+                return false
+            }
+        })
+    })
+</script>
 @include('layout.footer')
+
