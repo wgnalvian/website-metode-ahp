@@ -12,9 +12,9 @@ class CategoryComparM extends Model
 
 
     public function categoryA(){
-        return $this->belongsTo(Category::class,'category_id_A','id');
+        return $this->belongsTo(Category::class,'category_id_a','id');
     }
      public function categoryB(){
-        return $this->belongsTo(Category::class,'category_id_B','id');
+        return $this->belongsTo(Category::class,'category_id_b','id');
     }
 }

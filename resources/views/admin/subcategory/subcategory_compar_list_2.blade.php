@@ -2,7 +2,7 @@
 <div class="row">
     <div class="card" style="width: 100%">
         <div class="card-body">
-            <a href="{{url('/admin/category/compar/edit')}}" class="btn btn-primary">edit</a>
+            <a href="{{url('/admin/subcategory/compar/edit')}}" class="btn btn-primary">edit</a>
         </div>
     </div>
     <div class="card" style="width: 100%">
@@ -19,9 +19,9 @@
                             </tr>
 
                   
-                        @foreach ($categories as $category)
+                        @foreach ($subcategories as $subcategory)
                         <tr>
-                                <th>{{ $category['category_name'] }}</th>
+                                <th>{{ $subcategory['subcategory_name'] }}</th>
                             </tr>
                             @endforeach
 
@@ -30,13 +30,13 @@
                 <div class="col-10">
                     <table class="table table-bordered">
                         <tr>
-                                @foreach ($categories as $category)
-                                <th>{{ $category['category_name'] }}</th>
+                                @foreach ($subcategories as $subcategory)
+                                <th>{{ $subcategory['subcategory_name'] }}</th>
                                 @endforeach
                             </tr>
 
                  
-                        @foreach ($category_compar as $items)
+                        @foreach ($subcategory_compar as $items)
                             <tr>
                                 @foreach ($items as $item)
                                     <td style="width: 33%">{{ $item['value'] }}</td>
@@ -52,7 +52,7 @@
     </div>
     <div class="card mt-4" style="width: 100%">
         <div class="card-body">
-            <h6>Eigen Value of category</h6>
+            <h6>Eigen Value of subcategory</h6>
             <div class="row" style="width: 100%;overflow: auto;">
                 <div class="col-2">
                        <table class="table table-bordered">
@@ -63,9 +63,9 @@
                             </tr>
 
                   
-                        @foreach ($categories as $category)
+                        @foreach ($subcategories as $subcategory)
                         <tr>
-                                <th>{{ $category['category_name'] }}</th>
+                                <th>{{ $subcategory['subcategory_name'] }}</th>
                             </tr>
                             @endforeach
 
@@ -74,15 +74,15 @@
                 <div class="col-10">
                     <table class="table table-bordered">
                         <tr>
-                                @foreach ($categories as $category)
-                                <th >{{ $category['category_name'] }}</th>
+                                @foreach ($subcategories as $subcategory)
+                                <th >{{ $subcategory['subcategory_name'] }}</th>
                                 @endforeach
                                 <th >Total Eigen</th>
                                 <th >Mean Eigen (final score)</th>
                             </tr>
 
                 
-                        @foreach ($category_compar as $key => $items)
+                        @foreach ($subcategory_compar as $key => $items)
                             <tr>
                                 @foreach ($items as $item)
                                     <td >{{ $item['eigen_value'] }}</td>

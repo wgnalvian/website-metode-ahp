@@ -43,12 +43,14 @@ Route::controller(CategoryController::class)->prefix('/admin')->middleware('auth
     Route::get('/category/add', 'categoryAddView');
     Route::get('/category/edit', 'editCategoryView');
     Route::get('/category/edit', 'editCategoryView');
-    Route::get('/category/compar','comparCateogryView');
-    Route::post('/category/compar','doComparCategory');
-    Route::get('/category/compar/list','categoryComparView');
+    Route::get('/category/compar', 'comparCateogryView');
+    Route::post('/category/compar', 'doComparCategory');
+    Route::get('/category/compar/list', 'categoryComparView');
+    Route::get('/category/compar/edit', 'categoryComparEditView');
+    Route::patch('/category/compar', 'editCategoryCompar');
 });
 
-Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function(){
+Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
     Route::delete('/subcategory', 'deleteSubCategory');
     Route::post('/subcategory', 'addSubCategory');
     Route::get('/subcategory', 'listSubCategoryView');
@@ -56,8 +58,17 @@ Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('a
     Route::get('/subcategory/add', 'addSubCategoryView');
     Route::get('/subcategory/edit', 'editSubCategoryView');
     Route::get('/subcategory/edit', 'editSubCategoryView');
+    Route::post('/subcategory/compar', 'subcategoryCompar');
+    Route::get('/subcategory/compar/1', 'comparSubcategoryView1');
+    Route::get('/subcategory/compar/2', 'comparSubcategoryView2');
+    Route::get('/subcategory/compar/list/1','listSubCategoryC1');
+    Route::get('/subcategory/compar/list/2','listSubCategoryC2');
 });
 
-Route::controller(AdminController::class)->prefix('/admin')->middleware('auth.app')->group(function(){
-    Route::get('/','dashboardView');
+Route::controller(AdminController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
+    Route::get('/', 'dashboardView');
+});
+
+Route::fallback(function () {
+    return view('error.no_page');
 });

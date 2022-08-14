@@ -6,10 +6,11 @@
             <div class="table-responsive">
                 <table class="table table-bordered"  width="100%" cellspacing="0">
                     <thead>
-                        <tr>
+                        <tr class="table-success">
                            
                             <th>Category</th>
                             <th>SubCategory</th>
+                            <th>Is Compare ?</th>
                             <th>Action</th>
 
                         </tr>
@@ -29,7 +30,7 @@
                                     @endif
 
                                     <td>{{ $subcategory['subcategory_name'] }}</td>
-
+                                    <td><div class="badge {{$subcategory->is_compare == '1' ? 'badge-success' : 'badge-danger' }}">{{$subcategory->is_compare == '1' ? 'Yes' : 'No' }}</div></td>
 
                                     <td>
                                         <form class="d-inline" action="{{ url('/admin/subcategory/edit') }}" method="get">

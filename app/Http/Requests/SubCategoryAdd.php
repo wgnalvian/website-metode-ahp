@@ -25,6 +25,7 @@ class SubCategoryAdd extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,id',
+            'subcategory_name' => 'required'
            
         ];
     }
