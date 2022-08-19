@@ -3,6 +3,9 @@
 
 <div class="row ">
     <div class="col card sizing py-2">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Compare Subcategory</h6>
+        </div>
         <div class="card-body">
             <form class="{{ $isCompareExist ? 'COMPARE' : '' }}" action="{{ url('/admin/subcategory/compar') }}"
                 method="POST">
@@ -32,32 +35,56 @@
                                     aria-label="Default select example">
 
                                     <option value="">Choose Category ...</option>
-                                    <option value="{{ $precategory['id'] }},1,{{ $sufcategory['id'] }}">1, Sama Penting
+                                    <option value="{{ $precategory['id'] }},1,{{ $sufcategory['id'] }}">( 1 : 1 ), Sama Penting
                                     </option>
-                                    <option value="{{ $precategory['id'] }},2,{{ $sufcategory['id'] }}">2, Mendekati
+                                    <option value="{{ $precategory['id'] }},2,{{ $sufcategory['id'] }}"> ( 2  : 1 ), Mendekati
                                         Mutlak Dari
                                     </option>
-                                    <option value="{{ $precategory['id'] }},3,{{ $sufcategory['id'] }}">3, Sedikit
+                                    <option value="{{ $precategory['id'] }},3,{{ $sufcategory['id'] }}">( 3 : 1 ), Sedikit
                                         lebih penting
                                         dari </option>
-                                    <option value="{{ $precategory['id'] }},4,{{ $sufcategory['id'] }}">4, Mendekati
+                                    <option value="{{ $precategory['id'] }},4,{{ $sufcategory['id'] }}">( 4 : 1 ), Mendekati
                                         lebih
                                         penting dari</option>
-                                    <option value="{{ $precategory['id'] }},5,{{ $sufcategory['id'] }}">5, Lebih
+                                    <option value="{{ $precategory['id'] }},5,{{ $sufcategory['id'] }}">( 5 : 1 ), Lebih
                                         Penting dari
                                     </option>
-                                    <option value="{{ $precategory['id'] }},6,{{ $sufcategory['id'] }}">6, Mendekati
+                                    <option value="{{ $precategory['id'] }},6,{{ $sufcategory['id'] }}">( 6 : 1 ), Mendekati
                                         sangat
                                         penting dari </option>
-                                    <option value="{{ $precategory['id'] }},7,{{ $sufcategory['id'] }}">7, Sangat
+                                    <option value="{{ $precategory['id'] }},7,{{ $sufcategory['id'] }}">( 7 : 1 ), Sangat
                                         penting dari
                                     </option>
-                                    <option value="{{ $precategory['id'] }},8,{{ $sufcategory['id'] }}">8, Mendekati
+                                    <option value="{{ $precategory['id'] }},8,{{ $sufcategory['id'] }}">( 8 : 1 ), Mendekati
                                         mutlak
                                         dari </option>
-                                    <option value="{{ $precategory['id'] }},9,{{ $sufcategory['id'] }}">9, Mutlak
+                                    <option value="{{ $precategory['id'] }},9,{{ $sufcategory['id'] }}">( 9 : 1 ), Mutlak
                                         sangat
                                         penting dari </option>
+                                        <option value="{{ $sufcategory['id'] }},2,{{ $precategory['id'] }}"> ( 1  : 2 ), Mendekati
+                                            Mutlak Dari
+                                        </option>
+                                        <option value="{{ $sufcategory['id'] }},3,{{ $precategory['id'] }}">( 1 : 3 ), Sedikit
+                                            lebih penting
+                                            dari </option>
+                                        <option value="{{ $sufcategory['id'] }},4,{{ $precategory['id'] }}">( 1 : 4 ), Mendekati
+                                            lebih
+                                            penting dari</option>
+                                        <option value="{{ $sufcategory['id'] }},5,{{ $precategory['id'] }}">( 1 : 5 ), Lebih
+                                            Penting dari
+                                        </option>
+                                        <option value="{{ $sufcategory['id'] }},6,{{ $precategory['id'] }}">( 1 : 6 ), Mendekati
+                                            sangat
+                                            penting dari </option>
+                                        <option value="{{ $sufcategory['id'] }},7,{{ $precategory['id'] }}">( 1 : 7 ), Sangat
+                                            penting dari
+                                        </option>
+                                        <option value="{{ $sufcategory['id'] }},8,{{ $precategory['id'] }}">( 1 : 8 ), Mendekati
+                                            mutlak
+                                            dari </option>
+                                        <option value="{{ $sufcategory['id'] }},9,{{ $precategory['id'] }}">( 1 : 9 ), Mutlak
+                                            sangat
+                                            penting dari </option>
                                 </select>
 
                                 <div class="input-group-append">

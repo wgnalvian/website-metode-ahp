@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlternativeDataController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
+use App\Models\AlternativeData;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Route;
 
@@ -44,10 +46,10 @@ Route::controller(CategoryController::class)->prefix('/admin')->middleware('auth
     Route::get('/category/edit', 'editCategoryView');
     Route::get('/category/edit', 'editCategoryView');
     Route::get('/category/compar', 'comparCateogryView');
+    Route::patch('/category/compar', 'editCategoryCompar');
     Route::post('/category/compar', 'doComparCategory');
     Route::get('/category/compar/list', 'categoryComparView');
     Route::get('/category/compar/edit', 'categoryComparEditView');
-    Route::patch('/category/compar', 'editCategoryCompar');
 });
 
 Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
@@ -59,10 +61,26 @@ Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('a
     Route::get('/subcategory/edit', 'editSubCategoryView');
     Route::get('/subcategory/edit', 'editSubCategoryView');
     Route::post('/subcategory/compar', 'subcategoryCompar');
+    Route::patch('/subcategory/compar', 'editSubCategoryCompar');
     Route::get('/subcategory/compar/1', 'comparSubcategoryView1');
     Route::get('/subcategory/compar/2', 'comparSubcategoryView2');
-    Route::get('/subcategory/compar/list/1','listSubCategoryC1');
-    Route::get('/subcategory/compar/list/2','listSubCategoryC2');
+    Route::get('/subcategory/compar/edit', 'subcategoryComparEditV');
+    Route::get('/subcategory/compar/list/1', 'listSubCategoryC1');
+    Route::get('/subcategory/compar/list/2', 'listSubCategoryC2');
+});
+
+Route::controller(AlternativeDataController::class)->middleware('auth.app')->group(function () {
+    Route::post('/mahasiswa', 'addMahasiswa');
+    Route::delete('/mahasiswa','deleteMahasiswa');
+    Route::patch('/mahasiswa', 'editMahasiswa');
+    Route::get('/mahasiswa', 'listMahasiswaV');
+    Route::get('/mahasiswa/add', 'addMahasiswaV');
+    Route::get('/mahasiswa/edit', 'editMahasiswaV');
+    Route::post('/mahasiswa/choose','doChoose');
+    Route::get('/mahasiswa/choose/{id}','doChooseV');
+    Route::get('/mahasiswa-ranking','rankingMahasiswaV');
+    Route::get('/alternative-data','alternativeDataV');
+    Route::delete('/alternative-data','deleteChoose');
 });
 
 Route::controller(AdminController::class)->prefix('/admin')->middleware('auth.app')->group(function () {

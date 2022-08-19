@@ -6,11 +6,13 @@ use App\Http\Requests\SubCategoryAdd;
 use App\Http\Requests\SubCategoryCompar;
 use App\Http\Requests\SubCategoryEdit;
 use App\Http\Resources\SubCategoryRes;
+use App\Models\AlternativeData;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\SubCategoryComparM;
 use App\Models\SubCategoryM;
 use Illuminate\Http\Request;
+use Whoops\Run;
 
 class SubCategoryController extends Controller
 {
@@ -66,6 +68,9 @@ class SubCategoryController extends Controller
 
     public function deleteSubCategory(Request $request)
     {
+        SubCategoryComparM::where('category_id',SubCategory::where('id',$request->post('subcategory_id'))->first()->category->id)->delete();
+        AlternativeData::where('subcategory_id',$request->post('subcategory_id'))->delete();
+        SubCategory::where('category_id',SubCategory::where('id',$request->post('subcategory_id'))->first()->category->id)->update(['final_score' => '0','is_compare' => '0']);
         SubCategory::where('id', $request->post('subcategory_id'))->delete();
         return redirect()->to('/admin/subcategory')->with('success', 'Successfully delete 
         subcategory');
@@ -295,12 +300,147 @@ class SubCategoryController extends Controller
             $inc++;
         }
 
+
+          // *Make a query with order B side by id 
+          $subcategoryComparA = SubCategoryComparM::where('category_id', $request->post('category_id'))->orderBy('subcategory_id_b', 'ASC')->get();
+          if (count($subcategoryComparA) < 4) {
+              return redirect()->to('error.oops', ['msg' => 'Please repeat compare subcategory']);
+          } else {
+  
+              // *Make a simple format for count from query become like String "SideA,Value,SideB"
+              $arrSubcategoryComparA = [];
+              foreach ($subcategoryComparA as $key => $value) {
+                  $subcategoryIdA = $value['subcategory_id_a'];
+                  $subcategoryIdB = $value['subcategory_id_b'];
+                  $values = $value['value'];
+                  array_push($arrSubcategoryComparA, "$subcategoryIdA,$values,$subcategoryIdB");
+              }
+          }
+          
+        //   *Get Total Compare
+          $tempA = '';
+          $totalComparA = [];
+          $totalTemp = 0;
+          foreach ($arrSubcategoryComparA as $key => $value) {
+              $arrExplode = explode(',', $value);
+  
+              if ($tempA == $arrExplode[2]) {
+                  $totalTemp += (float) $arrExplode[1];
+                  if ($key == (count($arrSubcategoryComparA) - 1)) {
+                      array_push($totalComparA, $totalTemp);
+                  }
+              } else if ($tempA == '') {
+                  $tempA = $arrExplode[2];
+                  $totalTemp += (float) $arrExplode[1];
+              } else if ($tempA != $arrExplode[2]) {
+  
+                  array_push($totalComparA, $totalTemp);
+  
+                  $totalTemp = 0;
+                  $tempA = $arrExplode[2];
+                  $totalTemp += (float) $arrExplode[1];
+              }
+          }
+
+        //   *Get Lamda Max
+          $lMax = 0;
+        foreach ($meanEigen as $key => $value) {
+           $lMax += ($meanEigen[$key]*$totalComparA[$key]);
+        }
+       
+        // *Count CI value
+        if($lMax - $count == 0){
+            $ci = 0;
+        }else{
+
+            $ci = ($lMax - $count) / ($count - 1);
+        }
+         
+       
         // *Save final score to table subcategory
         $subcategories = SubCategory::where([['is_compare', '1'], ['category_id', $request->get('category_id')]])->orderBy('id', 'ASC')->get();
         foreach ($subcategories as $key => $subcategory) {
             $subcategory->update(['final_score' => $meanEigen[$key]]);
         }
         // *Return view
-        return view('admin.subcategory.subcategory_compar_list_2', ['subcategories' => SubCategory::where([['is_compare','1'],['category_id',$request->get('category_id')]])->orderBy('id', 'ASC')->get(), 'subcategory_compar' => $arrSubcategoryComparB, 'total_eigen' => $arrTotalEigen, 'mean_eigen' => $meanEigen]);
+        return view('admin.subcategory.subcategory_compar_list_2', ['subcategories' => SubCategory::where([['is_compare', '1'], ['category_id', $request->get('category_id')]])->orderBy('id', 'ASC')->get(), 'subcategory_compar' => $arrSubcategoryComparB, 'total_eigen' => $arrTotalEigen, 'mean_eigen' => $meanEigen]);
+    }
+
+
+    public function subcategoryComparEditV(Request $request)
+    {
+        if ($request->get('category_id') == null) {
+            return view('error.oops', ['msg' => 'Need resource ! back to menu before and repeat']);
+        }
+        // *Cek have subcateogry ? 
+        $count = SubCategory::where([['is_compare', '=', '1'], ['category_id', '=', $request->get('category_id')]])->get()->count();
+        $countC = SubCategoryComparM::where('category_id', $request->get('category_id'))->get()->count();
+
+        if ($count < 2) {
+            return view('error.oops', ['msg' => 'Please Add SubCategory Before']);
+        } else if ($countC < 4) {
+            return view('error.oops', ['msg' => 'Please compare subcategory before !']);
+        }
+
+
+        $subcategory = SubCategory::where([['is_compare','=', '1'],['category_id','=',$request->get('category_id')]])->orderBy('id','ASC')->get();
+        $tempC = [];
+        $arrCompareEdit = [];
+
+        $category = Category::where('id',$request->post('category_id'))->first();
+        foreach ($subcategory as $key => $value) {
+            array_push($tempC, $value['subcategory_name']);
+            foreach ($subcategory as $key2 => $value2) {
+                if ($value['subcategory_name'] != $value2['subcategory_name'] && !in_array($value2['subcategory_name'], $tempC)) {
+                    array_push($arrCompareEdit, SubCategoryComparM::where(['subcategory_id_a' => $value['id'], 'subcategory_id_b' => $value2['id']])->first());
+                }
+            }
+        }
+
+        return view('admin.subcategory.subcategory_compar_edit', ['view' => $this->view, 'arrCompareEdit' => $arrCompareEdit,'category' => $category]);
+        
+
+    }
+    public function editSubCategoryCompar(SubCategoryCompar $request){
+        $validated = $request->validated();
+     
+        foreach ($validated as $key => $value) {
+            if (preg_match("/subcategory_compar_[0-9]/", $key)) {
+                $arrExplode = explode(',', $value);
+                SubCategoryComparM::where(['subcategory_id_a' => (int) $arrExplode[0], 'subcategory_id_b' => (int)$arrExplode[2]])->update(['value' => strval((int) $arrExplode[1])]);
+                SubCategoryComparM::where(['subcategory_id_a' => (int) $arrExplode[2], 'subcategory_id_b' => (int)$arrExplode[0]])->update(['value' => strval(1 / (float) $arrExplode[1])]);
+            }
+        }
+        // *Make a query with order B side by id 
+        $subcategoryComparA = SubCategoryComparM::orderBy('subcategory_id_B', 'ASC')->get();
+        if (count($subcategoryComparA) < 4) {
+            return redirect()->to('error.oops', ['msg' => 'Please repeat compare subcategory']);
+        } else {
+
+            // *Make a simple format for count from query become like String "SideA,Value,SideB"
+            $arrSubcategoryComparA = [];
+            foreach ($subcategoryComparA as $key => $value) {
+                $subcategoryIdA = $value['subcategory_id_a'];
+                $subcategoryIdB = $value['subcategory_id_b'];
+                $values = $value['value'];
+                array_push($arrSubcategoryComparA, "$subcategoryIdA,$values,$subcategoryIdB");
+            }
+        }
+         // *Cek have subcateogry ? 
+         $count = SubCategory::where([['is_compare','=', '1'],['category_id','=',$request->post('category_id')]])->get()->count();
+
+         if ($count < 2) {
+             return redirect()->to('/error/oops', ['msg' => 'Please Add Category Before']);
+         }
+
+          // *Get Eigen Value
+        $eigen = $this->getEigen($arrSubcategoryComparA, $count);
+        // *Save eigen value in database  
+        foreach ($eigen as $key => $value) {
+            $arrExplode = explode(',', $value);
+            SubCategoryComparM::where([['subcategory_id_a', '=', (int) $arrExplode[0]], ['subcategory_id_b', '=', (int) $arrExplode[2]]])->update(['eigen_value' => (float) $arrExplode[1]]);
+        }
+        $id = $request->post('category_id');
+        return redirect()->to("/admin/subcategory/compar/list/2?category_id=$id");
     }
 }

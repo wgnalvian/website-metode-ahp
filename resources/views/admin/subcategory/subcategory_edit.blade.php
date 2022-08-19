@@ -10,6 +10,9 @@
 <!-- Content Row -->
 <div class="row ">
     <div class="col card sizing py-2">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Subcategory</h6>
+        </div>
         <div class="card-body">
             <form action="{{ url('/admin/subcategory') }}" method="post">
                 @method('patch')

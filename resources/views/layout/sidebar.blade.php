@@ -1,14 +1,37 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
 
 
-    <a class="btn btn-success btn-sm"> Ranking Web</a>
+
 
     <li class="nav-item ">
         <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
+    </li>
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Settings
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item {{ isset($view) && $view == 'Category' ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2"
+            aria-expanded="true" aria-controls="collapseTwo2">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Account</span>
+        </a>
+        <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Account Settings</h6>
+                <a class="collapse-item" href="{{ url('/admin/category') }}">Profile</a>
+
+                <a class="collapse-item" href="{{ url('/admin/category/compar/list') }}">Change Password</a>
+            </div>
+        </div>
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -17,7 +40,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Test Data
+            Kriteria
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -53,20 +76,96 @@
                     <a class="collapse-item" href="{{ url('/admin/subcategory') }}">List Subcategory</a>
                     <a class="collapse-item" href="{{ url('/admin/subcategory/add') }}">Add Subcategory</a>
                     <a class="collapse-item" href="{{ url('/admin/subcategory/compar/1') }}">Subcategory Compar</a>
-                    <a class="collapse-item" href="{{ url('/admin/subcategory/compar/list/1') }}">Subcategory Compar List</a>
+                    <a class="collapse-item" href="{{ url('/admin/subcategory/compar/list/1') }}">Subcategory Compar
+                        List</a>
 
                 </div>
             </div>
         </li>
 
         <!-- Divider -->
-    @endif
+    @else
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Test Data
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item {{ isset($view) && $view == 'Category' ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Category</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Category :</h6>
+                    <a class="collapse-item" href="{{ url('/admin/category') }}">List Category</a>
+
+                    <a class="collapse-item" href="{{ url('/admin/category/compar/list') }}">List Comparation
+                        Category</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Sub Category</span>
+            </a>
+            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Manajemen Sub Category :</h6>
+                    <a class="collapse-item" href="{{ url('/admin/subcategory') }}">List Subcategory</a>
+
+                    <a class="collapse-item" href="{{ url('/admin/subcategory/compar/list/1') }}">Subcategory Compar
+                        List</a>
+
+                </div>
+            </div>
+        </li>
+    @endIf
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Alternative Data
+    </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
+            aria-expanded="true" aria-controls="collapseUtilities2">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Alternative Data</span>
+        </a>
+        <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manajemen Sub Category :</h6>
+                <a class="collapse-item" href="{{ url('/mahasiswa/add') }}">Add Mahasiswa</a>
+                <a class="collapse-item" href="{{ url('/mahasiswa') }}">List Mahasiswa</a>
+                <a class="collapse-item" href="{{ url('/alternative-data') }}">Alternative Data</a>
+                <a class="collapse-item" href="{{ url('/mahasiswa-ranking') }}">Rangking Mahasiswa</a>
+
+            </div>
+        </div>
+    </li>
     <!-- Nav Item - Dashboard -->
 
 
     <!-- Divider -->
 
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
 
     <!-- Heading -->
 

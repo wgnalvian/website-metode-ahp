@@ -11,6 +11,10 @@ class SubCategoryComparM extends Model
     protected   $table = 'sub_categories_compar';
     protected $guarded = [];
     
+    public function category(){
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+
     public function subcategoryA(){
         return $this->belongsTo(SubCategory::class,'subcategory_id_a','id');
     }

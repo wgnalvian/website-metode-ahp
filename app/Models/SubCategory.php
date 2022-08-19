@@ -14,4 +14,12 @@ class SubCategory extends Model
     public function category(){
         return $this->belongsTo(Category::class,'category_id','id');
     }
+
+    public function subcategoryMA(){
+        return $this->hasMany(SubCategoryComparM::class,'subcategory_id_a','id');
+    } 
+
+    public function alternativeData(){
+        return $this->hasMany(AlternativeData::class,'subcategory_id','id');
+    }
 }

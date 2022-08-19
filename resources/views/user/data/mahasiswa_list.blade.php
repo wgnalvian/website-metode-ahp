@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col card">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List Category</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List Mahasiswa</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -12,7 +12,8 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Is Compare ?</th>
+                            <th>nim </th>
+                              <th></th>
                             <th>Action</th>
 
                         </tr>
@@ -20,23 +21,24 @@
 
                     <tbody>
 
-                        @foreach ($categories as $category)
+                        @foreach ($mahasiswas as $mahasiswa)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $category->category_name }}</td>
-                                <td><div class="badge {{$category->is_compare == '1' ? 'badge-success' : 'badge-danger' }}">{{$category->is_compare == '1' ? 'Yes' : 'No' }}</div></td>
+                                <td>{{ $mahasiswa->name }}</td>
+                                <td>{{ $mahasiswa->nim }}</td>
+                               <td>  <a  href="{{url("/mahasiswa/choose/$mahasiswa->id")}}"class="btn btn-primary">Select Data</a> </td>
                                 <th>
-                                    <form class="d-inline" action="{{ url('/admin/category/edit') }}" method="get">
+                                    <form class="d-inline" action="{{ url('/mahasiswa/edit') }}" method="get">
                                        
                                         @csrf
-                                        <input type="hidden" name="category_id" value="{{$category->id}}" />
+                                        <input type="hidden" name="mahasiswa_id" value="{{$mahasiswa->id}}" />
                                         <button type="submit" class="btn btn-warning ">edit</button>
                                     </form>
-                                    <form class="d-inline {{$category->is_compare == '1' ? 'DELETEC' : ''}}" action="{{ url('/admin/category') }}" method="post">
+                                    <form class="d-inline" action="{{ url('/mahasiswa') }}" method="post">
                                         @method('delete')
                                         @csrf
-                                        <input type="hidden" name="category_id" value="{{$category->id}}" />
-                                        <button type="submit" class="btn btn-danger">delete</button>
+                                        <input type="hidden" name="mahasiswa_id" value="{{$mahasiswa->id}}" />
+                                        <button type="submit" class="btn btn-danger ">delete</button>
                                     </form>
                                 </th>
                             </tr>

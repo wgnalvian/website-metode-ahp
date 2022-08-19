@@ -1,6 +1,9 @@
 @include('layout.header')
 <div class="row">
     <div class="card">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Choose Category</h6>
+        </div>
         <div class="card-body">
             <form action="{{ url('/admin/subcategory/compar/list/2') }}" method="get">
                 @csrf

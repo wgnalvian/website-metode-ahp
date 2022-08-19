@@ -1,8 +1,11 @@
 @include('layout.header')
 <div class="row">
     <div class="card" style="width: 100%">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Category Comparation List</h6>
+        </div>
         <div class="card-body">
-            <a href="{{url('/admin/subcategory/compar/edit')}}" class="btn btn-primary">edit</a>
+            <a href="{{url("/admin/subcategory/compar/edit?category_id=".strval($subcategories[0]->category_id))}}" class="btn btn-primary">edit</a>
         </div>
     </div>
     <div class="card" style="width: 100%">
