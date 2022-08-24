@@ -68,8 +68,15 @@ class SubCategoryController extends Controller
 
     public function deleteSubCategory(Request $request)
     {
+        $subcategories = SubCategory::where('id',$request->post('subcategory_id'))->first()->category->subcategory;
+        
+        foreach ($subcategories as $key => $value) {
+            
+            AlternativeData::where('subcategory_id',$value['id'])->delete();
+        }
+
+        
         SubCategoryComparM::where('category_id',SubCategory::where('id',$request->post('subcategory_id'))->first()->category->id)->delete();
-        AlternativeData::where('subcategory_id',$request->post('subcategory_id'))->delete();
         SubCategory::where('category_id',SubCategory::where('id',$request->post('subcategory_id'))->first()->category->id)->update(['final_score' => '0','is_compare' => '0']);
         SubCategory::where('id', $request->post('subcategory_id'))->delete();
         return redirect()->to('/admin/subcategory')->with('success', 'Successfully delete 
@@ -372,7 +379,7 @@ class SubCategoryController extends Controller
         $countC = SubCategoryComparM::where('category_id', $request->get('category_id'))->get()->count();
 
         if ($count < 2) {
-            return view('error.oops', ['msg' => 'Please Add SubCategory Before']);
+            return view('error.oops', ['msg' => 'Please Add  & Compare SubCategory Before']);
         } else if ($countC < 4) {
             return view('error.oops', ['msg' => 'Please compare subcategory before !']);
         }

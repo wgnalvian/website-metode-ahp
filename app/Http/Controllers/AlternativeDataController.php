@@ -56,6 +56,7 @@ class AlternativeDataController extends Controller
     {
 
         if ($request->post('mahasiswa_id')) {
+            AlternativeData::where('mahasiswa_id',$request->post('mahasiswa_id'))->delete();
             Mahasiswa::where('id', '=', $request->post('mahasiswa_id'))->delete();
         }
 

@@ -31,18 +31,27 @@ Route::controller(AuthController::class)->middleware('auth.login')->group(functi
     Route::get('/login', 'loginView');
     Route::post('/login', 'getLoginInput');
 });
-
-
-Route::controller(UserController::class)->middleware('auth.app')->group(function () {
+Route::controller(UserController::class)->middleware(['is.user', 'auth.app'])->group(function () {
     Route::get('/', 'dashboardView');
+});
+Route::controller(UserController::class)->middleware('auth.app')->group(function () {
+
     Route::get('/profile', 'profileV');
-    Route::patch('/profile','profileEdit');
-    Route::get('/profile/edit','profileEditV');
-    Route::get('/change-password','changePasswordV');
-    Route::patch('/change-password','changePassword');
+    Route::patch('/profile', 'profileEdit');
+    Route::get('/profile/edit', 'profileEditV');
+    Route::get('/change-password', 'changePasswordV');
+    Route::patch('/change-password', 'changePassword');
 });
 
-Route::controller(CategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
+Route::controller(CategoryController::class)->middleware(['auth.app', 'is.user'])->group(function () {
+    Route::get('/category', 'listCategoryView');
+    Route::get('/category/compar/list', 'categoryComparView');
+});
+
+Route::controller(CategoryController::class)->prefix('/admin')->middleware(['auth.app', 'is.admin'])->group(function () {
+
+
+
     Route::delete('/category', 'deleteCategory');
     Route::post('/category', 'addCategory');
     Route::get('/category', 'listCategoryView');
@@ -57,7 +66,7 @@ Route::controller(CategoryController::class)->prefix('/admin')->middleware('auth
     Route::get('/category/compar/edit', 'categoryComparEditView');
 });
 
-Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
+Route::controller(SubCategoryController::class)->prefix('/admin')->middleware(['is.admin', 'auth.app'])->group(function () {
     Route::delete('/subcategory', 'deleteSubCategory');
     Route::post('/subcategory', 'addSubCategory');
     Route::get('/subcategory', 'listSubCategoryView');
@@ -76,23 +85,26 @@ Route::controller(SubCategoryController::class)->prefix('/admin')->middleware('a
 
 Route::controller(AlternativeDataController::class)->middleware('auth.app')->group(function () {
     Route::post('/mahasiswa', 'addMahasiswa');
-    Route::delete('/mahasiswa','deleteMahasiswa');
+    Route::delete('/mahasiswa', 'deleteMahasiswa');
     Route::patch('/mahasiswa', 'editMahasiswa');
     Route::get('/mahasiswa', 'listMahasiswaV');
     Route::get('/mahasiswa/add', 'addMahasiswaV');
     Route::get('/mahasiswa/edit', 'editMahasiswaV');
-    Route::post('/mahasiswa/choose','doChoose');
-    Route::get('/mahasiswa/choose/{id}','doChooseV');
-    Route::get('/mahasiswa-ranking','rankingMahasiswaV');
-    Route::get('/alternative-data','alternativeDataV');
-    Route::delete('/alternative-data','deleteChoose');
+    Route::post('/mahasiswa/choose', 'doChoose');
+    Route::get('/mahasiswa/choose/{id}', 'doChooseV');
+    Route::get('/mahasiswa-ranking', 'rankingMahasiswaV');
+    Route::get('/alternative-data', 'alternativeDataV');
+    Route::delete('/alternative-data', 'deleteChoose');
 });
 
 
 
-Route::controller(AdminController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
+Route::controller(AdminController::class)->prefix('/admin')->middleware(['is.admin', 'auth.app'])->group(function () {
     Route::get('/', 'dashboardView');
 });
+
+
+
 
 Route::fallback(function () {
     return view('error.no_page');

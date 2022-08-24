@@ -18,7 +18,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('subcategory_name');
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->dropForeign('sub_categories_category_id_foreign');
-            $table->string('final_score');    
+            $table->string('final_score')->default('0');    
             $table->string('is_compare')->default('0');
             $table->timestamps();
         });

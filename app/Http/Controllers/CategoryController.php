@@ -69,14 +69,14 @@ class CategoryController extends Controller
 
         if ($request->post('category_id')) {
             CategoryComparM::truncate();
-            $subcategory = Category::where('id',$request->post('category_id'))->first()->subcategory;
-    
-                AlternativeData::truncate();
-            
+            $subcategory = Category::where('id', $request->post('category_id'))->first()->subcategory;
 
-            SubCategoryComparM::where('category_id',$request->post('category_id'))->delete();
-            Category::where('id',$request->post('category_id'))->delete();
-            Category::query()->update(['final_score' => '0','is_compare' => '0']);
+            AlternativeData::truncate();
+
+
+            SubCategoryComparM::where('category_id', $request->post('category_id'))->delete();
+            Category::where('id', $request->post('category_id'))->delete();
+            Category::query()->update(['final_score' => '0', 'is_compare' => '0']);
             return redirect()->back()->with('success', 'Successfully delete category');
         }
     }
@@ -176,71 +176,71 @@ class CategoryController extends Controller
             CategoryComparM::where([['category_id_a', '=', (int) $arrExplode[0]], ['category_id_b', '=', (int) $arrExplode[2]]])->update(['eigen_value' => (float) $arrExplode[1]]);
         }
 
-           // *Cek have cateogry ? 
-           $count = Category::where('is_compare', '1')->get()->count();
-           $countC = CategoryComparM::get()->count();
-   
-           if ($count < 2) {
-               return view('error.oops', ['msg' => 'Please Add & Compare Category Before']);
-           } else if ($countC < 4) {
-               return view('error.oops', ['msg' => 'Please compare category before !']);
-           }
-   
-   
-   
-           // *Query category compare value by order A side and B side
-           $categoryComparB = CategoryComparM::orderBy('category_id_a', 'ASC')->orderBy('category_id_b', 'ASC')->get();
-   
-           if (count($categoryComparB) == 0) {
-               return view('error.oops', ['msg' => 'Please compare category before !']);
-           } else {
-               // *Make a format query from result query become  array [ [], [] ] for view 
-               $inc = 0;
-               $divider = 0;
-               $arrCategoryComparB = [];
-               foreach ($categoryComparB as $key => $value) {
-                   if ($inc  == $count) {
-                       $inc = 0;
-                       $divider++;
-                   }
-                   $arrCategoryComparB[$divider][$inc] = $value;
-   
-                   $inc++;
-               }
-           }
-   
-           // *Count total and mean eigen value
-           $inc = 0;
-           $arrTotalEigen = [];
-           $meanEigen = [];
-           $totEigen = 0;
-           foreach ($categoryComparB as $key => $value) {
-   
-               if ($inc == $count) {
-                   $inc = 0;
-                   array_push($arrTotalEigen, $totEigen);
-                   array_push($meanEigen, $totEigen / $count);
-   
-                   $totEigen = 0;
-               }
-               if ($key == (count($categoryComparB) - 1)) {
-                   $totEigen += (float) $value['eigen_value'];
-                   array_push($arrTotalEigen, $totEigen);
-                   array_push($meanEigen, $totEigen / $count);
-               }
-   
-   
-               $totEigen += (float) $value['eigen_value'];
-               $inc++;
-           }
-   
-   
-           // *Save final score to table category
-           $categories = Category::where('is_compare', '1')->orderBy('id', 'ASC')->get();
-           foreach ($categories as $key => $category) {
-               $category->update(['final_score' => $meanEigen[$key]]);
-           }
-   
+        // *Cek have cateogry ? 
+        $count = Category::where('is_compare', '1')->get()->count();
+        $countC = CategoryComparM::get()->count();
+
+        if ($count < 2) {
+            return view('error.oops', ['msg' => 'Please Add & Compare Category Before']);
+        } else if ($countC < 4) {
+            return view('error.oops', ['msg' => 'Please compare category before !']);
+        }
+
+
+
+        // *Query category compare value by order A side and B side
+        $categoryComparB = CategoryComparM::orderBy('category_id_a', 'ASC')->orderBy('category_id_b', 'ASC')->get();
+
+        if (count($categoryComparB) == 0) {
+            return view('error.oops', ['msg' => 'Please compare category before !']);
+        } else {
+            // *Make a format query from result query become  array [ [], [] ] for view 
+            $inc = 0;
+            $divider = 0;
+            $arrCategoryComparB = [];
+            foreach ($categoryComparB as $key => $value) {
+                if ($inc  == $count) {
+                    $inc = 0;
+                    $divider++;
+                }
+                $arrCategoryComparB[$divider][$inc] = $value;
+
+                $inc++;
+            }
+        }
+
+        // *Count total and mean eigen value
+        $inc = 0;
+        $arrTotalEigen = [];
+        $meanEigen = [];
+        $totEigen = 0;
+        foreach ($categoryComparB as $key => $value) {
+
+            if ($inc == $count) {
+                $inc = 0;
+                array_push($arrTotalEigen, $totEigen);
+                array_push($meanEigen, $totEigen / $count);
+
+                $totEigen = 0;
+            }
+            if ($key == (count($categoryComparB) - 1)) {
+                $totEigen += (float) $value['eigen_value'];
+                array_push($arrTotalEigen, $totEigen);
+                array_push($meanEigen, $totEigen / $count);
+            }
+
+
+            $totEigen += (float) $value['eigen_value'];
+            $inc++;
+        }
+
+
+        // *Save final score to table category
+        $categories = Category::where('is_compare', '1')->orderBy('id', 'ASC')->get();
+        foreach ($categories as $key => $category) {
+            $category->update(['final_score' => $meanEigen[$key]]);
+        }
+
 
         return redirect()->to('/admin/category/compar/list');
     }
@@ -397,7 +397,7 @@ class CategoryController extends Controller
             return view('error.oops', ['msg' => 'Please compare category before !']);
         }
         // Get data compare category for editable
-        $category = Category::where('is_compare', '1')->orderBy('id','ASC')->get();
+        $category = Category::where('is_compare', '1')->orderBy('id', 'ASC')->get();
         $tempC = [];
         $arrCompareEdit = [];
 
