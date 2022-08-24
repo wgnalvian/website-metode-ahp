@@ -169,7 +169,130 @@ class SubCategoryController extends Controller
             $arrExplode = explode(',', $value);
             SubCategoryComparM::where([['subcategory_id_a', '=', (int) $arrExplode[0]], ['subcategory_id_b', '=', (int) $arrExplode[2]], ['category_id', '=', $request->post('category_id')]])->update(['eigen_value' => (float) $arrExplode[1]]);
         }
+        if ($request->post('category_id') == null) {
+            return view('error.oops', ['msg' => 'Need resource ! back to menu before and repeat']);
+        }
+
+        // *Cek have subcateogry ? 
+        $count = SubCategory::where([['is_compare', '=', '1'], ['category_id', '=', $request->post('category_id')]])->get()->count();
+        $countC = SubCategoryComparM::where('category_id', $request->post('category_id'))->get()->count();
+
+        if ($count < 2) {
+            return view('error.oops', ['msg' => 'Please Add SubCategory Before']);
+        } else if ($countC < 4) {
+            return view('error.oops', ['msg' => 'Please compare subcategory before !']);
+        }
+
+        // *Query category compare value by order A side and B side
+        $subcategoryComparB = SubCategoryComparM::where('category_id', $request->post('category_id'))->orderBy('subcategory_id_a', 'ASC')->orderBy('subcategory_id_b', 'ASC')->get();
+
+        if (count($subcategoryComparB) == 0) {
+            return view('error.oops', ['msg' => 'Please compare subcategory before !']);
+        } else {
+            // *Make a format query from result query become  array [ [], [] ] for view 
+            $inc = 0;
+            $divider = 0;
+            $arrSubcategoryComparB = [];
+            foreach ($subcategoryComparB as $key => $value) {
+                if ($inc  == $count) {
+                    $inc = 0;
+                    $divider++;
+                }
+                $arrSubcategoryComparB[$divider][$inc] = $value;
+
+                $inc++;
+            }
+        }
+
+        // *Count total and mean eigen value
+        $inc = 0;
+        $arrTotalEigen = [];
+        $meanEigen = [];
+        $totEigen = 0;
+        foreach ($subcategoryComparB as $key => $value) {
+
+            if ($inc == $count) {
+                $inc = 0;
+                array_push($arrTotalEigen, $totEigen);
+                array_push($meanEigen, $totEigen / $count);
+
+                $totEigen = 0;
+            }
+            if ($key == (count($subcategoryComparB) - 1)) {
+                $totEigen += (float) $value['eigen_value'];
+                array_push($arrTotalEigen, $totEigen);
+                array_push($meanEigen, $totEigen / $count);
+            }
+
+
+            $totEigen += (float) $value['eigen_value'];
+            $inc++;
+        }
+
+
+          // *Make a query with order B side by id 
+          $subcategoryComparA = SubCategoryComparM::where('category_id', $request->post('category_id'))->orderBy('subcategory_id_b', 'ASC')->get();
+          if (count($subcategoryComparA) < 4) {
+              return redirect()->to('error.oops', ['msg' => 'Please repeat compare subcategory']);
+          } else {
+  
+              // *Make a simple format for count from query become like String "SideA,Value,SideB"
+              $arrSubcategoryComparA = [];
+              foreach ($subcategoryComparA as $key => $value) {
+                  $subcategoryIdA = $value['subcategory_id_a'];
+                  $subcategoryIdB = $value['subcategory_id_b'];
+                  $values = $value['value'];
+                  array_push($arrSubcategoryComparA, "$subcategoryIdA,$values,$subcategoryIdB");
+              }
+          }
+          
+        //   *Get Total Compare
+          $tempA = '';
+          $totalComparA = [];
+          $totalTemp = 0;
+          foreach ($arrSubcategoryComparA as $key => $value) {
+              $arrExplode = explode(',', $value);
+  
+              if ($tempA == $arrExplode[2]) {
+                  $totalTemp += (float) $arrExplode[1];
+                  if ($key == (count($arrSubcategoryComparA) - 1)) {
+                      array_push($totalComparA, $totalTemp);
+                  }
+              } else if ($tempA == '') {
+                  $tempA = $arrExplode[2];
+                  $totalTemp += (float) $arrExplode[1];
+              } else if ($tempA != $arrExplode[2]) {
+  
+                  array_push($totalComparA, $totalTemp);
+  
+                  $totalTemp = 0;
+                  $tempA = $arrExplode[2];
+                  $totalTemp += (float) $arrExplode[1];
+              }
+          }
+
+        // //   *Get Lamda Max
+        //   $lMax = 0;
+        // foreach ($meanEigen as $key => $value) {
+        //    $lMax += ($meanEigen[$key]*$totalComparA[$key]);
+        // }
+       
+        // // *Count CI value
+        // if($lMax - $count == 0){
+        //     $ci = 0;
+        // }else{
+
+        //     $ci = ($lMax - $count) / ($count - 1);
+        // }
+         
+       
+        // *Save final score to table subcategory
+        $subcategories = SubCategory::where([['is_compare', '1'], ['category_id', $request->post('category_id')]])->orderBy('id', 'ASC')->get();
+        foreach ($subcategories as $key => $subcategory) {
+            $subcategory->update(['final_score' => $meanEigen[$key]]);
+        }
         $id = $request->post('category_id');
+
         return redirect()->to("/admin/subcategory/compar/list/2?category_id=$id");
     }
 
@@ -342,19 +465,19 @@ class SubCategoryController extends Controller
               }
           }
 
-        //   *Get Lamda Max
-          $lMax = 0;
-        foreach ($meanEigen as $key => $value) {
-           $lMax += ($meanEigen[$key]*$totalComparA[$key]);
-        }
+        // //   *Get Lamda Max
+        //   $lMax = 0;
+        // foreach ($meanEigen as $key => $value) {
+        //    $lMax += ($meanEigen[$key]*$totalComparA[$key]);
+        // }
        
-        // *Count CI value
-        if($lMax - $count == 0){
-            $ci = 0;
-        }else{
+        // // *Count CI value
+        // if($lMax - $count == 0){
+        //     $ci = 0;
+        // }else{
 
-            $ci = ($lMax - $count) / ($count - 1);
-        }
+        //     $ci = ($lMax - $count) / ($count - 1);
+        // }
          
        
         // *Save final score to table subcategory

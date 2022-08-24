@@ -1,11 +1,13 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
+<ul  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
 
+    <div class="sidebar-brand" style="width: 100%;height : 50px;display: flex; box-sizing: border-box;padding: 5px 5px 0 5px; justify-content: center" >
+        <img class="sidebar-brand-icon " src="{{url('/image/jb.png')}}" style="height: 100%">
+        <h6 class="sidebar-brand-text" style="color: White;font-weight: bolder">Website Perankingan Siswa</h6>
+    </div>
 
-
-
-    <li class="nav-item ">
+    <li class="nav-item mt-4">
         <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -27,9 +29,9 @@
         <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Account Settings</h6>
-                <a class="collapse-item" href="{{ url('/admin/category') }}">Profile</a>
+                <a class="collapse-item" href="{{ url('/profile') }}">Profile</a>
 
-                <a class="collapse-item" href="{{ url('/admin/category/compar/list') }}">Change Password</a>
+                <a class="collapse-item" href="{{ url('/change-password') }}">Change Password</a>
             </div>
         </div>
     </li>

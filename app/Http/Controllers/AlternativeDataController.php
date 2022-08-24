@@ -155,8 +155,9 @@ class AlternativeDataController extends Controller
         $arrSortedTemp = $arrTemp;
         sort($arrSortedTemp);
         $arrSortedTemp = array_reverse($arrSortedTemp);
-
+      
         $arrRanknull = [];
+        
         foreach ($arrRangking as $key => $value) {
             if ($arrRangking[$key]['total_score'] == 0) {
                 array_push($arrRanknull, $arrRangking[$key]);
@@ -170,6 +171,9 @@ class AlternativeDataController extends Controller
             $key2 = array_search($value, $arrTemp);
 
             $arrRankingFilter[$key] = $arrRangking[$key2];
+            unset($arrTemp[$key2]);
+            unset($arrRangking[$key2]);
+         
         }
 
 
@@ -180,8 +184,12 @@ class AlternativeDataController extends Controller
         }
 
         array_push($arrRankingFilter, ...$arrRanknull);
-
-        return view('user.data.mahasiswa_ranking', ['result' => $arrRankingFilter]);
+        $result = [];
+        foreach ($arrRankingFilter as $key => $value) {
+            array_push($result,$value);
+        }
+       
+        return view('user.data.mahasiswa_ranking', ['result' => $result]);
     }
     public function deleteChoose(Request $request)
     {

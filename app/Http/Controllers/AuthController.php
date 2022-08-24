@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
 
 
-
+    
 
 
     public function registerView()
@@ -27,6 +27,7 @@ class AuthController extends Controller
 
     public function loginView()
     {
+    
         $roleUser = RoleUser::get();
 
         return view('auth.login', compact('roleUser'));

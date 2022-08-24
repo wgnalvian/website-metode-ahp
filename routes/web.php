@@ -35,6 +35,11 @@ Route::controller(AuthController::class)->middleware('auth.login')->group(functi
 
 Route::controller(UserController::class)->middleware('auth.app')->group(function () {
     Route::get('/', 'dashboardView');
+    Route::get('/profile', 'profileV');
+    Route::patch('/profile','profileEdit');
+    Route::get('/profile/edit','profileEditV');
+    Route::get('/change-password','changePasswordV');
+    Route::patch('/change-password','changePassword');
 });
 
 Route::controller(CategoryController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
@@ -82,6 +87,8 @@ Route::controller(AlternativeDataController::class)->middleware('auth.app')->gro
     Route::get('/alternative-data','alternativeDataV');
     Route::delete('/alternative-data','deleteChoose');
 });
+
+
 
 Route::controller(AdminController::class)->prefix('/admin')->middleware('auth.app')->group(function () {
     Route::get('/', 'dashboardView');
