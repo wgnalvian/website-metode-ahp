@@ -20,6 +20,8 @@
                 <span>Dashboard</span></a>
         </li>
     @endIf
+
+
     <hr class="sidebar-divider">
 
     <!-- Heading -->
@@ -37,6 +39,11 @@
         <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Account Settings</h6>
+                @if (Auth::user()->role_id == 1)
+                    <a class="collapse-item" href="{{ url('/admin/user') }}">List User</a>
+
+                    <a class="collapse-item" href="{{ url('/admin/settings') }}">App Settings</a>
+                @endif
                 <a class="collapse-item" href="{{ url('/profile') }}">Profile</a>
 
                 <a class="collapse-item" href="{{ url('/change-password') }}">Change Password</a>
@@ -44,7 +51,7 @@
         </div>
     </li>
     <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+
     @if (Auth::user()->roleUser['role'] == 'Admin')
         <hr class="sidebar-divider">
 
@@ -131,9 +138,9 @@
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Manajemen Sub Category :</h6>
-                    <a class="collapse-item" href="{{ url('/admin/subcategory') }}">List Subcategory</a>
+                    <a class="collapse-item" href="{{ url('/subcategory') }}">List Subcategory</a>
 
-                    <a class="collapse-item" href="{{ url('/admin/subcategory/compar/list/1') }}">Subcategory
+                    <a class="collapse-item" href="{{ url('/subcategory/compar/list/1') }}">Subcategory
                         Compar
                         List</a>
 

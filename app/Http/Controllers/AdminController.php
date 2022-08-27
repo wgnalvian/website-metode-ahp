@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubCategoryCompar;
+use App\Models\AlternativeData;
 use App\Models\Category;
+use App\Models\CategoryComparM;
 use App\Models\Mahasiswa;
 use App\Models\SubCategory;
+use App\Models\SubCategoryComparM;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -79,5 +84,42 @@ class AdminController extends Controller
         }
 
         return view('dashboard',['data' => $data]);
+    }
+
+
+    public function listUser(){
+        $users = User::get();
+
+        return view('admin.user_list',['users' => $users]);
+    }
+
+    public function deleteUser(Request $request){
+        if($request->post('user_id')){
+            User::where('id',$request->post('user_id'))->delete();
+            return redirect()->back()->with('success','Successfully Delete user');
+        }
+    }
+    public function toAdmin(Request $request){
+        
+        if($request->post('user_id')){
+            User::where('id',$request->post('user_id'))->update(['role_id' => 1]);
+            return redirect()->back()->with('success','Successfully update user');
+        }
+    }
+    public function appSettingV(){
+        return view('admin.app_setting');
+    }
+
+    public function resetApp(){
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+       AlternativeData::truncate();
+       Mahasiswa::truncate();
+       SubCategoryComparM::truncate();
+       SubCategory::truncate();
+       CategoryComparM::truncate();
+       Category::truncate();
+       DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+       return redirect()->back()->with('success','Successfully reset app');
     }
 }

@@ -1,10 +1,12 @@
 @include('layout.header')
 <div class="row">
-    <div class="card" style="width: 100%">
-        <div class="card-body">
-            <a href="{{ url('/admin/category/compar/edit') }}" class="btn btn-primary">edit</a>
+    @if (Auth::user()->role_id == 1)
+        <div class="card" style="width: 100%">
+            <div class="card-body">
+                <a href="{{ url('/admin/category/compar/edit') }}" class="btn btn-primary">edit</a>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="card" style="width: 100%">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Category Comparation List</h6>
@@ -19,7 +21,7 @@
                         </tr>
 
 
-                         @foreach ($categories as $category)
+                          @foreach ($categories as $category)
                         <tr>
                             <th>{{ $category['category_name'] }}</th>
                         </tr>

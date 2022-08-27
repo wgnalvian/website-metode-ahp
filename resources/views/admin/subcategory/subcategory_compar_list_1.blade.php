@@ -5,6 +5,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Choose Category</h6>
         </div>
         <div class="card-body">
+        @if (Auth::user()->role_id == 1)
             <form action="{{ url('/admin/subcategory/compar/list/2') }}" method="get">
                 @csrf
                 <label for="basic-url">Choose Category</label>
@@ -21,6 +22,26 @@
                     <button class="btn btn-primary mt-2">Next</button>
                 </div>
             </form>
+
+            @else
+  <form action="{{ url('/subcategory/compar/list/2') }}" method="get">
+                @csrf
+                <label for="basic-url">Choose Category</label>
+                <div class="form-group">
+                    <select name="category_id" class="custom-select" aria-label="Default select example">
+                        <option value="">Choose Category ...</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                    <button class="btn btn-primary mt-2">Next</button>
+                </div>
+            </form>
+
+            @endIf
         </div>
     </div>
 </div>

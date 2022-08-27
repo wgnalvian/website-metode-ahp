@@ -26,6 +26,8 @@
                                 <td>{{ $category->category_name }}</td>
                                 <td><div class="badge {{$category->is_compare == '1' ? 'badge-success' : 'badge-danger' }}">{{$category->is_compare == '1' ? 'Yes' : 'No' }}</div></td>
                                 <th>
+                                @if (Auth::user()->role_id == 1)
+                                    
                                     <form class="d-inline" action="{{ url('/admin/category/edit') }}" method="get">
                                        
                                         @csrf
@@ -38,6 +40,10 @@
                                         <input type="hidden" name="category_id" value="{{$category->id}}" />
                                         <button type="submit" class="btn btn-danger">delete</button>
                                     </form>
+                                @else
+                                    <p>No Action</p>
+
+                                @endIf
                                 </th>
                             </tr>
                         @endforeach

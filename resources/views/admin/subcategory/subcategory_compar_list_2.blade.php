@@ -4,9 +4,12 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Category Comparation List</h6>
         </div>
+        @if (Auth::user()->role_id == 1)
+            
         <div class="card-body">
             <a href="{{url("/admin/subcategory/compar/edit?category_id=".strval($subcategories[0]->category_id))}}" class="btn btn-primary">edit</a>
         </div>
+        @endif
     </div>
     <div class="card" style="width: 100%">
         

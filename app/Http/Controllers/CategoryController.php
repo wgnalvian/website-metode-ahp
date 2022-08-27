@@ -8,6 +8,7 @@ use App\Http\Requests\CategoryEditReq;
 use App\Models\AlternativeData;
 use App\Models\Category;
 use App\Models\CategoryComparM;
+use App\Models\SubCategory;
 use App\Models\SubCategoryComparM;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,13 +70,17 @@ class CategoryController extends Controller
 
         if ($request->post('category_id')) {
             CategoryComparM::truncate();
-            $subcategory = Category::where('id', $request->post('category_id'))->first()->subcategory;
+            $subcategories = Category::where('id', $request->post('category_id'))->first()->subcategory;
 
-            AlternativeData::truncate();
+            foreach ($subcategories as $key => $value) {
+            
+                AlternativeData::where('subcategory_id',$value['id'])->delete();
+            }
 
 
             SubCategoryComparM::where('category_id', $request->post('category_id'))->delete();
             Category::where('id', $request->post('category_id'))->delete();
+            SubCategory::where('category_id',$request->post('category_id'))->delete();
             Category::query()->update(['final_score' => '0', 'is_compare' => '0']);
             return redirect()->back()->with('success', 'Successfully delete category');
         }

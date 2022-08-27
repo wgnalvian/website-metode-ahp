@@ -36,6 +36,8 @@
                                     <td><div class="badge {{$subcategory->is_compare == '1' ? 'badge-success' : 'badge-danger' }}">{{$subcategory->is_compare == '1' ? 'Yes' : 'No' }}</div></td>
 
                                     <td>
+                                    @if (Auth::user()->role_id == 1)
+                                        
                                         <form class="d-inline" action="{{ url('/admin/subcategory/edit') }}" method="get">
                                            
                                             @csrf
@@ -49,6 +51,10 @@
                                             <button type="submit" class="btn btn-danger">delete</button>
                                         </form>
                                     </td>
+                                    @else
+                                        <p>No Action</p>
+
+                                    @endIf
                                 </tr>
                                 <?php $old = $item['category_name']; ?>
                             @endforeach

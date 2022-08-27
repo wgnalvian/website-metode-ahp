@@ -31,7 +31,7 @@ Route::controller(AuthController::class)->middleware('auth.login')->group(functi
     Route::get('/login', 'loginView');
     Route::post('/login', 'getLoginInput');
 });
-Route::controller(UserController::class)->middleware(['is.user', 'auth.app'])->group(function () {
+Route::controller(UserController::class)->middleware([ 'auth.app','is.user'])->group(function () {
     Route::get('/', 'dashboardView');
 });
 Route::controller(UserController::class)->middleware('auth.app')->group(function () {
@@ -43,10 +43,20 @@ Route::controller(UserController::class)->middleware('auth.app')->group(function
     Route::patch('/change-password', 'changePassword');
 });
 
+
+
+
 Route::controller(CategoryController::class)->middleware(['auth.app', 'is.user'])->group(function () {
     Route::get('/category', 'listCategoryView');
     Route::get('/category/compar/list', 'categoryComparView');
 });
+
+Route::controller(SubCategoryController::class)->middleware(['auth.app', 'is.user'])->group(function () {
+    Route::get('/subcategory', 'listSubCategoryView');
+    Route::get('/subcategory/compar/list/1', 'listSubCategoryC1');
+    Route::get('/subcategory/compar/list/2', 'listSubCategoryC2');
+});
+
 
 Route::controller(CategoryController::class)->prefix('/admin')->middleware(['auth.app', 'is.admin'])->group(function () {
 
@@ -66,7 +76,7 @@ Route::controller(CategoryController::class)->prefix('/admin')->middleware(['aut
     Route::get('/category/compar/edit', 'categoryComparEditView');
 });
 
-Route::controller(SubCategoryController::class)->prefix('/admin')->middleware(['is.admin', 'auth.app'])->group(function () {
+Route::controller(SubCategoryController::class)->prefix('/admin')->middleware(['auth.app','is.admin'])->group(function () {
     Route::delete('/subcategory', 'deleteSubCategory');
     Route::post('/subcategory', 'addSubCategory');
     Route::get('/subcategory', 'listSubCategoryView');
@@ -99,8 +109,13 @@ Route::controller(AlternativeDataController::class)->middleware('auth.app')->gro
 
 
 
-Route::controller(AdminController::class)->prefix('/admin')->middleware(['is.admin', 'auth.app'])->group(function () {
+Route::controller(AdminController::class)->prefix('/admin')->middleware(['auth.app','is.admin'])->group(function () {
     Route::get('/', 'dashboardView');
+    Route::get('/user','listUser');
+    Route::delete('/user','deleteUser');
+    Route::patch('/user','toAdmin');
+    Route::get('/settings', 'appSettingV');
+    Route::post('/reset-app','resetApp');
 });
 
 
