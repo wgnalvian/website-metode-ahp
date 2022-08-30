@@ -24,7 +24,7 @@ class ProfileEdit extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required',
+            'username' => 'required|unique:App\Models\User,name',
             'userimage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }

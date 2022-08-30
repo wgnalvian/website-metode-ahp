@@ -25,7 +25,7 @@ class MahasiswaAdd extends FormRequest
     {
         return [
             'mahasiswa_name' => 'required',
-            'mahasiswa_nim' => 'required|unique:App\Models\Mahasiswa,nim'
+            'mahasiswa_nim' => 'required|integer|unique:App\Models\Mahasiswa,nim'
         ];
     }
     public function messages()

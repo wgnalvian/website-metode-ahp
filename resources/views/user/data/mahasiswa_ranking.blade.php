@@ -2,8 +2,9 @@
 
 <div class="row">
     <div class="col card">
-        <div class="card-header py-3">
+        <div class="card-header py-3 " style="display : flex; align-items: center">
             <h6 class="m-0 font-weight-bold text-primary">Ranking Mahasiswa</h6>
+            <a href="{{url('/export/mahasiswa-rank')}}" class="btn btn-warning btn-sm ml-4"  >Exel</a>
         </div>
         <div class="card-body">
             <table class="table table-bordered" id="dataTable">
@@ -40,7 +41,7 @@
     
              <div class="col card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Rank Chart</h6>
                                 </div>
                                 <div class="card-body">
                                    
@@ -67,7 +68,7 @@ var myBarChart = new Chart(ctx, {
   data: {
     labels: array,
     datasets: [{
-      label: "Revenue",
+       label: "Mahasiswa",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",

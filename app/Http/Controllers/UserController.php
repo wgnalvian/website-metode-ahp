@@ -8,6 +8,7 @@ use App\Models\Mahasiswa;
 use App\Models\SubCategory;
 use App\Models\User;
 use DateTime;
+use Illuminate\Support\Facades\File; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -103,6 +104,9 @@ class UserController extends Controller
     }
     public function profileEdit(ProfileEdit $request)
     {
+        if(Auth::user()->image != "default.svg"){
+            unlink(public_path().'/image/'.Auth::user()->image);
+        }
         $date = strtotime('now');
         $file = $request->file('userimage')->getClientOriginalName();
         $imageName =  "$date$file" ;

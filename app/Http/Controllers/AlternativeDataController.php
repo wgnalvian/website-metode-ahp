@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RankExport;
 use App\Http\Requests\MahasiswaAdd;
 use App\Http\Requests\MahasiswaChoose;
 use App\Http\Requests\MahasiswaEdit;
@@ -11,6 +12,7 @@ use App\Models\Mahasiswa;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AlternativeDataController extends Controller
 {
@@ -201,5 +203,10 @@ class AlternativeDataController extends Controller
 
 
         return redirect()->back()->with('success', 'Successfully delete data');
+    }
+
+    public function exportMahasiswaRank(){
+        
+        return Excel::download(new RankExport, 'invoices.xlsx');
     }
 }

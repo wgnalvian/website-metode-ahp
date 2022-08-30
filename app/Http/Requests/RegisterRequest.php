@@ -24,7 +24,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string',
+            'username' => 'required|string|unique:App\Models\User,name',
             'password' => 'required|confirmed'
         ];
     }
