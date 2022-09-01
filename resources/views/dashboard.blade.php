@@ -1,8 +1,19 @@
 @include('layout.header')
 
 
-<!-- Content Row -->
 <div class="row">
+    <div class="col card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">website introduction</h6>
+        </div>
+        <div class="card-body" style="background-color: white !important">
+            This website use methode AHP (Analytical Hierarchy Process) to count to calculate student ranking based on achievement. The Analytic Hierarchy Process (AHP) is a method for organizing and analyzing complex decisions, using math and psychology.
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+<div class="row mt-3">
 
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-4 col-md-6 mb-4">

@@ -106,6 +106,7 @@ Route::controller(AlternativeDataController::class)->middleware('auth.app')->gro
     Route::get('/alternative-data', 'alternativeDataV');
     Route::delete('/alternative-data', 'deleteChoose');
     Route::get('/export/mahasiswa-rank','exportMahasiswaRank');
+    Route::get('/export/pdf','toPdfMahasiswaRank');
 });
 
 

@@ -30,10 +30,10 @@
                         {{ $message }}
                     </div>
                 @enderror
-                <label for="basic-url">NIM</label>
+                <label for="basic-url">Nim</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">NIM</span>
+                        <span class="input-group-text" id="basic-addon3">Nim</span>
                     </div>
                     <input value="{{old('mahasiswa_nim')}}" name="mahasiswa_nim" type="text" class="form-control" id="basic-url"
                         aria-describedby="basic-addon3">

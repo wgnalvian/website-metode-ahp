@@ -5,6 +5,7 @@
         <div class="card-header py-3 " style="display : flex; align-items: center">
             <h6 class="m-0 font-weight-bold text-primary">Ranking Mahasiswa</h6>
             <a href="{{url('/export/mahasiswa-rank')}}" class="btn btn-warning btn-sm ml-4"  >Exel</a>
+            <a href="{{url('/export/pdf')}}" class="btn btn-success btn-sm ml-4"  >Pdf</a>
         </div>
         <div class="card-body">
             <table class="table table-bordered" id="dataTable">
