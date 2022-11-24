@@ -34,7 +34,7 @@
                                         
                                     <option value="{{ $subcategory->subcategoryA->id }},{{(int) round(1 / (float) $subcategory->value)}},{{ $subcategory->subcategoryB->id }}">1 : {{(int) round(1 / (float) $subcategory->value)}}</option>
                                     @else
-                                    <option value="{{ $subcategory->subcategoryA->id }},{{$subcategory->value}},{{ $subcategory->subcategoryB->id }}">{{ $subcategory->value}}</option>
+                                    <option value="{{ $subcategory->subcategoryA->id }},{{$subcategory->value}},{{ $subcategory->subcategoryB->id }}">{{ $subcategory->value}} : 1</option>
                                     @endif
                                     <option value="{{ $subcategory->subcategoryA->id }},1,{{ $subcategory->subcategoryB->id }}">( 1 : 1 ), Sama Penting
                                     </option>

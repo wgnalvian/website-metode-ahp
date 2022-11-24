@@ -31,7 +31,7 @@ Route::controller(AuthController::class)->middleware('auth.login')->group(functi
     Route::get('/login', 'loginView');
     Route::post('/login', 'getLoginInput');
 });
-Route::controller(UserController::class)->middleware(['is.user', 'auth.app'])->group(function () {
+Route::controller(UserController::class)->middleware(['auth.app','is.user'])->group(function () {
     Route::get('/', 'dashboardView');
 });
 Route::controller(UserController::class)->middleware('auth.app')->group(function () {

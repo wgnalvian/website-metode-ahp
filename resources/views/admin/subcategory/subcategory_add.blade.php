@@ -34,7 +34,7 @@
                 <label for="basic-url">SubCategory Name</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Category Name</span>
+                        <span class="input-group-text" id="basic-addon3">SubCategory Name</span>
                     </div>
                     <input value="{{old('subcategory_name')}}" name="subcategory_name" type="text" class="form-control" id="basic-url"
                         aria-describedby="basic-addon3">
@@ -44,7 +44,7 @@
                         {{ $message }}
                     </div>
                 @enderror
-                <button type="submit" class="btn btn-primary">Add Category</button>
+                <button type="submit" class="btn btn-primary">Add SubCategory</button>
                 <a class="btn btn-secondary" href="{{url('/admin/subcategory')}}">cancel</a>
             </form>
         </div>
